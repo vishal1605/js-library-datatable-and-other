@@ -1,0 +1,13 @@
+
+.loader .col-12 {
+    position: absolute;
+    padding: 15px 0;
+    background: rgba(128,128,128,0.2);
+}
+    .loader .col-12 .loading-status {
+        width: 100px;
+        height: 100px;
+        opacity: 1 !important;
+        z-index: 100;
+        color: red;
+    }

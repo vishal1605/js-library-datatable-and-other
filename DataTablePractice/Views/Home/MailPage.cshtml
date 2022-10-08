@@ -1,0 +1,27 @@
+﻿@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Mail Page";
+}
+<div class="row">
+    <div class="col-5 m-auto shadow p-2">
+        <form id="email-form">
+            <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">To</label>
+                <input type="email" class="form-control" id="exampleInputEmail1" name="to" aria-describedby="emailHelp">
+
+            </div>
+            <div class="mb-3">
+                <label for="exampleInputtext" class="form-label">Subject</label>
+                <textarea class="form-control" placeholder="Leave a comment here" name="subject" id="floatingTextarea"></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="formFile" class="form-label">Default file input example</label>
+                <input class="form-control" type="file" id="formFile" name="attachment">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Send</button>
+        </form>
+    </div>
+</div>
+
+<script src="/js/mail-content.js"></script>
