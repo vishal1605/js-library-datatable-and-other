@@ -12,6 +12,8 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Drawing.Printing;
 using System.IO;
+using System.Net;
+using System.Net.Mail;
 using ZXing;
 using ZXing.Common;
 using ZXing.QrCode;
@@ -46,12 +48,39 @@ namespace DataTablePractice.Controllers
         }
 
         [HttpPost]
-        public IActionResult SendMail(string requestData)
+        public IActionResult SendMail()
         {
-            byte[] byteBuffer = Convert.FromBase64String(requestData);
-            Console.WriteLine(byteBuffer);
+            Console.WriteLine(Request.Form["to"]);
+            Console.WriteLine(Request.Form["body"]);
+            var attachmentFile = Request.Form.Files.GetFile("attachment");
+            var byteArray = getByteArrayFromFile(attachmentFile);
+            string from = "";
+            MailMessage mail = new MailMessage(from, Request.Form["to"].ToString());
+            mail.Subject = "Test Mail";
+            mail.Body = Request.Form["body"].ToString();
+            mail.Attachments.Add(new Attachment(new MemoryStream(byteArray), attachmentFile.FileName));
 
-            return new JsonResult("done");
+            SmtpClient smtp = new SmtpClient();
+            smtp.Host = "smtp.gmail.com";
+            smtp.EnableSsl = true;
+            NetworkCredential networkCredential = new NetworkCredential(from, ""); //For gmail user Add App password it generate after 2 step verification
+            smtp.UseDefaultCredentials = false;
+            smtp.Credentials = networkCredential;
+            smtp.Port = 587;
+            smtp.Send(mail);
+
+
+            return new JsonResult(byteArray);
+        }
+        private byte[] getByteArrayFromFile(IFormFile file)
+        {
+            using (var target = new MemoryStream())
+            {
+                file.CopyTo(target);
+                return target.ToArray();
+
+            };
+
         }
 
         [HttpPost]
@@ -92,8 +121,6 @@ namespace DataTablePractice.Controllers
                 }
             }
             Console.WriteLine(byteArray);
-
-
 
             return byteArray;
         }
