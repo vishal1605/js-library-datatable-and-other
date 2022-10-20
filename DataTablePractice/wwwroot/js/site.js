@@ -365,6 +365,12 @@ $(document).ready(function () {
         columns: [
 
             //{ data: 'id' },
+            {
+                className: 'dt-control',
+                orderable: false,
+                data: null,
+                defaultContent: '',
+            },
             { data: 'email' },
             { data: 'name' },
             { data: 'psw' },
@@ -406,8 +412,86 @@ $(document).ready(function () {
 
 
     });
+    $('#user_id tbody').on('click', 'td.dt-control', function () {
+        
+        var tr = $(this).closest('tr');
+        var row = $('#user_id').DataTable().row(tr);
+
+        if (row.child.isShown()) {
+            // This row is already open - close it
+            row.child.hide();
+            tr.removeClass('shown');
+        } else {
+            // Open this row
+            row.child(`
+<table id="child_id" class="display" style="width:100%">
+            <thead>
+                <tr>
+                    
+                    
+                    <th>Email</th>
+                    <th>Name</th>
+                    <th>Psw</th>
+                    <th>Register Date</th>
+                    
+
+                </tr>
+            </thead>
+        </table>
+
+                `).show();
+            tr.addClass('shown');
+        }
+        var table = $('#child_id').DataTable({
+            ajax: {
+                type: 'GET',
+                url: "/Home/GetData",
+                data: 'data',
+            },
+            "paging": false,
+            "columns": [
+                { data: 'email' },
+                { data: 'name' },
+                { data: 'psw' },
+                {
+                    data: 'registerDate',
+                    searchBuilderType: 'date',
+                    render: function (date) {
+                        return moment(date).format('DD/MM/YY')
+                    },
+
+                },
+            ],
+            //"order": [[1, 'asc']],
+            "dom": 'rtip'
+        });
+    });
 
 });
+
+function format() {
+    // `d` is the original data object for the row
+    return (
+        '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
+        '<tr>' +
+        '<td>Full name:</td>' +
+        '<td>' +
+        Vishal +
+        '</td>' +
+        '</tr>' +
+        '<tr>' +
+        '<td>Extension number:</td>' +
+        '<td>' +
+        guhuhiu +
+        '</td>' +
+        '</tr>' +
+        '<tr>' +
+        '<td>Extra info:</td>' +
+        '<td>And any further details here (images etc)...</td>' +
+        '</tr>' +
+        '</table>'
+    );
+}
 
 //////////////////////////////////////////////////Email Form Operation//////////////////////////////
 

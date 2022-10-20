@@ -52,10 +52,12 @@ G:\repos\DataTablePractice123\DataTablePractice\bin\Debug\net6.0\DataTablePracti
 G:\repos\DataTablePractice123\DataTablePractice\bin\Debug\net6.0\DataTablePractice.pdb
 G:\repos\DataTablePractice123\DataTablePractice\bin\Debug\net6.0\Dapper.dll
 G:\repos\DataTablePractice123\DataTablePractice\bin\Debug\net6.0\MailKit.dll
+G:\repos\DataTablePractice123\DataTablePractice\bin\Debug\net6.0\MessagingToolkit.QRCode.dll
 G:\repos\DataTablePractice123\DataTablePractice\bin\Debug\net6.0\Microsoft.Win32.SystemEvents.dll
 G:\repos\DataTablePractice123\DataTablePractice\bin\Debug\net6.0\MimeKit.dll
 G:\repos\DataTablePractice123\DataTablePractice\bin\Debug\net6.0\Newtonsoft.Json.dll
 G:\repos\DataTablePractice123\DataTablePractice\bin\Debug\net6.0\BouncyCastle.Crypto.dll
+G:\repos\DataTablePractice123\DataTablePractice\bin\Debug\net6.0\QRCoder.dll
 G:\repos\DataTablePractice123\DataTablePractice\bin\Debug\net6.0\System.Data.SqlClient.dll
 G:\repos\DataTablePractice123\DataTablePractice\bin\Debug\net6.0\System.Drawing.Common.dll
 G:\repos\DataTablePractice123\DataTablePractice\bin\Debug\net6.0\zxing.dll
@@ -86,3 +88,5 @@ G:\repos\DataTablePractice123\DataTablePractice\obj\Debug\net6.0\refint\DataTabl
 G:\repos\DataTablePractice123\DataTablePractice\obj\Debug\net6.0\DataTablePractice.pdb
 G:\repos\DataTablePractice123\DataTablePractice\obj\Debug\net6.0\DataTablePractice.genruntimeconfig.cache
 G:\repos\DataTablePractice123\DataTablePractice\obj\Debug\net6.0\ref\DataTablePractice.dll
+G:\repos\DataTablePractice123\DataTablePractice\bin\Debug\net6.0\libman.json
+G:\repos\DataTablePractice123\DataTablePractice\bin\Debug\net6.0\Spire.Barcode.dll

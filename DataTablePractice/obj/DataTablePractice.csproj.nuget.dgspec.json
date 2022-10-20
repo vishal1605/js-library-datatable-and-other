@@ -48,9 +48,21 @@
               "target": "Package",
               "version": "[3.4.1, )"
             },
+            "MessagingToolkit.QRCode": {
+              "target": "Package",
+              "version": "[1.3.0, )"
+            },
             "Newtonsoft.Json": {
               "target": "Package",
               "version": "[13.0.1, )"
+            },
+            "QRCoder": {
+              "target": "Package",
+              "version": "[1.4.3, )"
+            },
+            "Spire.Barcode": {
+              "target": "Package",
+              "version": "[6.8.0, )"
             },
             "System.Data.SqlClient": {
               "target": "Package",

@@ -3,6 +3,8 @@ using DataTablePractice.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using QRCoder;
+using Spire.Barcode;
 using System.Collections;
 using System.Data;
 using System.Data.SqlClient;
@@ -20,6 +22,7 @@ using ZXing.QrCode;
 using ZXing.QrCode.Internal;
 using static System.Net.Mime.MediaTypeNames;
 using BitArray = ZXing.Common.BitArray;
+using Image = System.Drawing.Image;
 using QRCodeWriter = ZXing.QrCode.QRCodeWriter;
 
 namespace DataTablePractice.Controllers
@@ -84,45 +87,66 @@ namespace DataTablePractice.Controllers
         }
 
         [HttpPost]
-        public byte[] ProcessQr(string requestData)
+        public void ProcessQr(string requestData)
         {
             string? qrString = JsonConvert.DeserializeObject<string>(requestData);
-            byte[] byteArray;
-            var qrCodeWriter = new ZXing.BarcodeWriterPixelData
-            {
-                Format = ZXing.BarcodeFormat.QR_CODE,
-                Options = new QrCodeEncodingOptions
-                {
-                    Height = 350,
-                    Width = 350,
-                    Margin = 2
-                }
-            };
-            var pixelData = qrCodeWriter.Write(qrString);
-            using (var bitmap = new Bitmap(pixelData.Width, pixelData.Height, PixelFormat.Format32bppRgb))
-            {
-                using (var ms = new MemoryStream())
-                {
-                    var bitmapData = bitmap.LockBits(new Rectangle(0, 0, pixelData.Width, pixelData.Height), ImageLockMode.WriteOnly, PixelFormat.Format32bppRgb);
-                    try
-                    {
-                        // we assume that the row stride of the bitmap is aligned to 4 byte multiplied by the width of the image
-                        System.Runtime.InteropServices.Marshal.Copy(pixelData.Pixels, 0, bitmapData.Scan0, pixelData.Pixels.Length);
-                    }
+            //byte[] byteArray;
+            //var qrCodeWriter = new ZXing.BarcodeWriterPixelData
+            //{
+            //    Format = ZXing.BarcodeFormat.QR_CODE,
+            //    Options = new QrCodeEncodingOptions
+            //    {
+            //        Height = 350,
+            //        Width = 350,
+            //        Margin = 2
+            //    }
+            //};
+            //var pixelData = qrCodeWriter.Write(qrString);
+            //using (var bitmap = new Bitmap(pixelData.Width, pixelData.Height, PixelFormat.Format32bppRgb))
+            //{
+            //    using (var ms = new MemoryStream())
+            //    {
+            //        var bitmapData = bitmap.LockBits(new Rectangle(0, 0, pixelData.Width, pixelData.Height), ImageLockMode.WriteOnly, PixelFormat.Format32bppRgb);
+            //        try
+            //        {
+            //            // we assume that the row stride of the bitmap is aligned to 4 byte multiplied by the width of the image
+            //            System.Runtime.InteropServices.Marshal.Copy(pixelData.Pixels, 0, bitmapData.Scan0, pixelData.Pixels.Length);
+            //        }
 
-                    catch (Exception e)
-                    {
+            //        catch (Exception e)
+            //        {
 
-                        bitmap.UnlockBits(bitmapData);
-                    }
-                    bitmap.Save(ms, ImageFormat.Png);
-                    byteArray = ms.ToArray();
-                    //System.IO.File.WriteAllBytes(@"D:\myqr2.png", byteArray);
-                }
+            //            bitmap.UnlockBits(bitmapData);
+            //        }
+            //        bitmap.Save(ms, ImageFormat.Png);
+            //        byteArray = ms.ToArray();
+            //        //System.IO.File.WriteAllBytes(@"D:\myqr2.png", byteArray);
+            //    }
+            //}
+            //Console.WriteLine(byteArray);
+            QRCodeGenerator qrGenerator = new QRCodeGenerator();
+            QRCodeData qrCodeData = qrGenerator.CreateQrCode(qrString, QRCodeGenerator.ECCLevel.L);
+            BitmapByteQRCode bitmapQRCode = new BitmapByteQRCode(qrCodeData);
+            byte[] bit = bitmapQRCode.GetGraphic(3);
+
+            Bitmap bmp;
+            using (var ms = new MemoryStream(bit))
+            {
+                bmp = new Bitmap(ms);
             }
-            Console.WriteLine(byteArray);
+            Bitmap bitMAP1 = new Bitmap(bmp);
+            byte[] newbit;
+            using (var memoryStream = new MemoryStream())
+            {
+                bitMAP1.Save(memoryStream, System.Drawing.Imaging.ImageFormat.Png);
+                newbit = memoryStream.ToArray();
+                Image img = Image.FromStream(memoryStream);
+                var b = new Bitmap(img, new Size(300, 300));
+                b.SetResolution(0.5f, 0.5f);
+                b.Save(@"G:\image\myqr.png");
+            }
 
-            return byteArray;
+            //return byteArray;
         }
 
 
